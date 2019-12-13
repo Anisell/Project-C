@@ -3,307 +3,241 @@
 #endif
 
 #include <gtk/gtk.h>
-
+#include <string.h>
 #include "callbacks.h"
 #include "interface.h"
 #include "support.h"
-#include "reclamation.h"
-#include "repondre.h"
+#include "facture.h"
 
 
 void
-on_buttonpresedent_clicked             (GtkWidget       *objet,
+on_buttonretour_clicked                (GtkWidget      *objet,
                                         gpointer         user_data)
 {
-GtkWidget *fenetre_rec,*f_client;
-fenetre_rec=lookup_widget(objet,"reclamation");
+GtkWidget *ajouter_facture,*afficher_facture;
+afficher_facture=lookup_widget(objet,"affiche_facture");
 
-gtk_widget_destroy(fenetre_rec);
-f_client=create_window7();
-gtk_widget_show(f_client);
-}
-
-
-void
-on_buttonenvoyer_clicked               (GtkWidget       *objet,
-                                        gpointer         user_data)
-{
+gtk_widget_destroy(afficher_facture);
+ajouter_facture=create_ajoute_facture();
+gtk_widget_show(ajouter_facture);
 
 }
 
 
 void
-on_buttonpresedent3_clicked            (GtkWidget       *objet_graphique,
+on_buttonmodifier_clicked              (GtkWidget       *objet,
                                         gpointer         user_data)
 {
-GtkWidget *window1, *Window2;
+GtkWidget *afficher_facture,*fenetre_num;
+afficher_facture=lookup_widget(objet,"affiche_facture");
+
+gtk_widget_destroy(afficher_facture);
+fenetre_num=create_window1();
+gtk_widget_show(fenetre_num);
+}
+
+
+void
+on_buttonretour2_clicked               (GtkWidget      *objet,
+                                        gpointer         user_data)
+{
+GtkWidget *fenetre_afficher,*modifier_facture;
 GtkWidget *treeview;
-window1=lookup_widget(objet_graphique,"window3");
-gtk_widget_hide(window1);
-Window2 = create_window4();
-gtk_widget_show (Window2);
-treeview=lookup_widget(Window2,"treeview1");
-afficher_reclamation(treeview);
+modifier_facture=lookup_widget(objet,"modife_facture");
+
+gtk_widget_destroy(modifier_facture);
+fenetre_afficher=create_affiche_facture();
+gtk_widget_show(fenetre_afficher);
+treeview=lookup_widget(fenetre_afficher,"treeview1");
+afficher_facture(treeview);
+
 }
 
 
 void
-on_buttonenvoyer1_clicked              (GtkWidget       *objet,
+on_buttonvalider_clicked               (GtkWidget       *objet_graphique,
                                         gpointer         user_data)
 {
-Reponce r;
-GtkWidget *input1;
-GtkWidget *Envoyer_reponce;
+Facture v;
+GtkWidget *input1,*input2,*input3,*input4,*input5;
+GtkWidget *output;
+input1=lookup_widget(objet_graphique,"entry6");
+input2=lookup_widget(objet_graphique,"entry7");
+input3=lookup_widget(objet_graphique,"entry8");
+input4=lookup_widget(objet_graphique,"entry9");
+input5=lookup_widget(objet_graphique,"entry10");
 
+output=lookup_widget(objet_graphique,"label32");
+strcpy(v.nom,gtk_entry_get_text(GTK_ENTRY(input1)));
+strcpy(v.mode,gtk_entry_get_text(GTK_ENTRY(input2)));
+strcpy(v.num,gtk_entry_get_text(GTK_ENTRY(input3)));
+strcpy(v.prix,gtk_entry_get_text(GTK_ENTRY(input4)));
+strcpy(v.date,gtk_entry_get_text(GTK_ENTRY(input5)));
 
-
-
-Envoyer_reponce=lookup_widget(objet,"window3");
-
-input1=lookup_widget(objet,"entrymessage3");
-
-strcpy(r.message,gtk_entry_get_text(GTK_ENTRY(input1)));
-
-envoyer_reponce(r);
+modifier_facture(v);
+gtk_label_set_text(GTK_LABEL(output),"modifié avec succés") ;
 }
 
 
 void
-on_buttonsupprimer_clicked             (GtkWidget       *objet,
+on_buttonrefuser_clicked               (GtkWidget      *objet,
                                         gpointer         user_data)
 {
-GtkWidget *reclamation_liste,*Window5;
-reclamation_liste=lookup_widget(objet,"window4");
 
-gtk_widget_destroy(reclamation_liste);
-Window5=create_window5();
-gtk_widget_show(Window5);
 }
 
+
 void
-on_buttonretour_clicked                (GtkWidget       *objet,
+on_buttonconfirmer_clicked             (GtkWidget      *objet,
                                         gpointer         user_data)
 {
-GtkWidget *reclamation_liste,*Window7;
-reclamation_liste=lookup_widget(objet,"window4");
 
-gtk_widget_destroy(reclamation_liste);
-Window7=create_window7();
-gtk_widget_show(Window7);
 }
 
 
 void
-on_buttonretour1_clicked               (GtkWidget      *objet_graphique,
+on_buttonajouter_clicked               (GtkWidget      *objet,
                                         gpointer         user_data)
 {
-GtkWidget *window1, *Window2;
-GtkWidget *treeview;
-window1=lookup_widget(objet_graphique,"window5");
-gtk_widget_hide(window1);
-Window2 = create_window4();
-gtk_widget_show (Window2);
-treeview=lookup_widget(Window2,"treeview1");
-afficher_reclamation(treeview);
+Facture fa;
+GtkWidget *input1, *input2, *input3, *input4, *input5;
+GtkWidget *ajoute_facture;
+
+
+
+ajoute_facture=lookup_widget(objet,"ajoute_facture");
+
+input1=lookup_widget(objet,"nom");
+
+input2=lookup_widget(objet,"mode");
+input3=lookup_widget(objet,"num");
+input4=lookup_widget(objet,"prix");
+input5=lookup_widget(objet,"date");
+
+
+
+strcpy(fa.nom,gtk_entry_get_text(GTK_ENTRY(input1)));
+
+strcpy(fa.mode,gtk_entry_get_text(GTK_ENTRY(input2)));
+strcpy(fa.num,gtk_entry_get_text(GTK_ENTRY(input3)));
+strcpy(fa.prix,gtk_entry_get_text(GTK_ENTRY(input4)));
+strcpy(fa.date,gtk_entry_get_text(GTK_ENTRY(input5)));
+
+ajouter_facture(fa);
 }
 
 
 void
-on_buttonvalider_clicked               (GtkWidget      *objet_graphique,
+on_buttonafficher_clicked              (GtkWidget      *objet,
+                                        gpointer         user_data)
+{
+GtkWidget *ajouter_facture;
+GtkWidget *fenetre_afficher;
+GtkWidget *treeview1;
+ajouter_facture=lookup_widget(objet,"ajoute_facture");
+
+fenetre_afficher=create_affiche_facture();
+gtk_widget_show(fenetre_afficher);
+gtk_widget_hide(ajouter_facture);
+treeview1=lookup_widget(fenetre_afficher,"treeview1");
+afficher_facture(treeview1);
+}
+
+
+void
+on_buttonconfirmer1_clicked            (GtkWidget       *objet_graphique,
+                                        gpointer         user_data)
+{
+char refe[20];
+int test;
+Facture v;
+GtkWidget *input1,*input2,*input3,*input4,*input5,*input6;
+GtkWidget *window1,*window2;
+GtkWidget *output;
+
+window2=create_modife_facture();
+input1=lookup_widget(objet_graphique,"entry_num");
+input2=lookup_widget(window2,"entry6");
+input3=lookup_widget(window2,"entry7");
+input4=lookup_widget(window2,"entry8");
+input5=lookup_widget(window2,"entry9");
+input6=lookup_widget(window2,"entry10");
+
+output= lookup_widget(objet_graphique,"label31");
+strcpy(refe,gtk_entry_get_text(GTK_ENTRY(input1)));
+if (verifier_ref(refe)==0)
+gtk_label_set_text(GTK_LABEL(output),"Fatcure inexistante");
+else
+{
+FILE *f2;
+f2=fopen("facture.txt","r"); 
+if (f2!=NULL)
+{while (fscanf(f2,"%s %s %s %s %s\n",v.nom,v.mode,v.num,v.prix,v.date)!=EOF)
+{if (strcmp(v.num,refe)==0) 
+{ gtk_widget_show(window2);
+gtk_entry_set_text(GTK_ENTRY(input2),v.nom) ;
+gtk_entry_set_text(GTK_ENTRY(input3),v.mode) ;
+gtk_entry_set_text(GTK_ENTRY(input4),v.num) ;
+gtk_entry_set_text(GTK_ENTRY(input5),v.prix) ;
+gtk_entry_set_text(GTK_ENTRY(input6),v.date) ;
+
+window1=lookup_widget(objet_graphique,"window1");
+gtk_widget_destroy(window1);
+break ;}}
+}
+fclose(f2);
+}
+}
+
+
+void
+on_buttonsupprimer_clicked             (GtkWidget      *objet,
+                                        gpointer         user_data)
+{
+GtkWidget *afficher_facture,*fenetre_nums;
+afficher_facture=lookup_widget(objet,"affiche_facture");
+
+gtk_widget_destroy(afficher_facture);
+fenetre_nums=create_window2();
+gtk_widget_show(fenetre_nums);
+}
+
+
+void
+on_buttoncomfirmer2_clicked            (GtkWidget       *objet_graphique,
                                         gpointer         user_data)
 {
 GtkWidget *input1;
 GtkWidget *output1;
-Reclamation b;
-char rec[20];
-input1=lookup_widget(objet_graphique,"entryCIN");
-output1=lookup_widget(objet_graphique,"label29");
-strcpy(rec,gtk_entry_get_text(GTK_ENTRY(input1)));
-if(verifier_cin(rec)==0)
-gtk_label_set_text(GTK_LABEL(output1),"Reclamation inexistante");
+Facture b;
+char refer[20];
+input1=lookup_widget(objet_graphique,"entrynum");
+output1=lookup_widget(objet_graphique,"label35");
+strcpy(refer,gtk_entry_get_text(GTK_ENTRY(input1)));
+if(verifier_ref(refer)==0)
+gtk_label_set_text(GTK_LABEL(output1),"facture inexistante");
 else
 {
-supprimer_reclamation(rec);
-gtk_label_set_text(GTK_LABEL(output1),"Reclamation supprimé");
+supprimer_facture(refer);
+gtk_label_set_text(GTK_LABEL(output1),"facture supprimé");
 }
-}
-
-void
-on_buttonreponder1_clicked             (GtkWidget       *objet,
-                                        gpointer         user_data)
-{
-
-}
-
-void
-on_buttonenvoyer2_clicked              (GtkWidget      *objet,
-                                        gpointer         user_data)
-{
-Reclamation r;
-GtkWidget *input1, *input2, *input3, *input4;
-GtkWidget *Envoyer_reclamation;
-
-
-
-
-Envoyer_reclamation=lookup_widget(objet,"reclamation");
-
-input1=lookup_widget(objet,"nom");
-
-input2=lookup_widget(objet,"prenom");
-input3=lookup_widget(objet,"cin");
-input4=lookup_widget(objet,"description");
-
-
-
-
-strcpy(r.nom,gtk_entry_get_text(GTK_ENTRY(input1)));
-
-strcpy(r.prenom,gtk_entry_get_text(GTK_ENTRY(input2)));
-strcpy(r.cin,gtk_entry_get_text(GTK_ENTRY(input3)));
-strcpy(r.description,gtk_entry_get_text(GTK_ENTRY(input4)));
-
-envoyer_reclamation(r);
-
 }
 
 
 void
-on_buttonafficher_clicked              (GtkWidget       *objet,
+on_buttonretour3_clicked               (GtkWidget       *objet_graphique,
                                         gpointer         user_data)
 {
-
-
+GtkWidget *window1, *Window2;
 GtkWidget *treeview;
-
-
-treeview=lookup_widget(objet,"treeview1");
-afficher_reclamation(treeview);
-}
-
-
-void
-on_treeview1_row_activated             (GtkTreeView     *treeview,
-                                        GtkTreePath     *path,
-                                        GtkTreeViewColumn *column,
-                                        gpointer         user_data)
-{
-	gchar *Nom;
-	gchar *Prenom;
-	gchar *CIN;
-
-GtkWidget *Window4;
-GtkWidget *Window3;
-GtkTreeIter iter;
-
-Window4=lookup_widget(treeview,"window4");
-
-GtkTreeModel *model = gtk_tree_view_get_model(treeview);
-if(gtk_tree_model_get_iter(model,&iter,path))
-{gtk_tree_model_get(GTK_LIST_STORE(model),&iter,0,&Nom,1,&Prenom,2,&CIN,-1);}
-Window3 = create_window3();
-gtk_widget_show(Window3);
-gtk_widget_destroy(Window4);
-}
-
-
-void
-on_buttonretour4_clicked               (GtkWidget       *objet,
-                                        gpointer         user_data)
-{
-GtkWidget *fenetre_reponce,*f_client;
-fenetre_reponce=lookup_widget(objet,"window6");
-
-gtk_widget_destroy(fenetre_reponce);
-f_client=create_window7();
-gtk_widget_show(f_client);
+window1=lookup_widget(objet_graphique,"window2");
+gtk_widget_hide(window1);
+Window2 = create_affiche_facture();
+gtk_widget_show (Window2);
+treeview=lookup_widget(Window2,"treeview1");
+afficher_facture(treeview);
 
 }
 
 
-void
-on_buttonquitter_clicked               (GtkWidget       *objet,
-                                        gpointer         user_data)
-{
-
-}
-
-
-void
-on_buttonajouter_rec_clicked           (GtkWidget       *objet,
-                                        gpointer         user_data)
-{
-GtkWidget *f_client,*Window1;
-f_client=lookup_widget(objet,"window7");
-
-gtk_widget_destroy(f_client);
-Window1=create_reclamation();
-gtk_widget_show(Window1);
-}
-
-
-
-
-void
-on_buttonrep_clicked                   (GtkWidget       *objet,
-                                        gpointer         user_data)
-{
-GtkWidget *f_client,*Window6;
-f_client=lookup_widget(objet,"window7");
-
-gtk_widget_destroy(f_client);
-Window6=create_window6();
-gtk_widget_show(Window6);
-}
-
-
-
-
-void
-on_buttonafficher4_clicked             (GtkWidget       *objet,
-                                        gpointer         user_data)
-{
-GtkWidget *treeview;
-
-
-treeview=lookup_widget(objet,"treeview2");
-afficher_reponce(treeview);
-}
-
-
-void
-on_treeview2_row_activated             (GtkTreeView     *treeview,
-                                        GtkTreePath     *path,
-                                        GtkTreeViewColumn *column,
-                                        gpointer         user_data)
-{
-gchar *Message;
-	
-
-GtkWidget *Window6;
-GtkWidget *Window8;
-GtkTreeIter iter;
-
-Window6=lookup_widget(treeview,"window6");
-
-GtkTreeModel *model = gtk_tree_view_get_model(treeview);
-if(gtk_tree_model_get_iter(model,&iter,path))
-{gtk_tree_model_get(GTK_LIST_STORE(model),&iter,0,&Message,-1);}
-Window8 = create_window8();
-gtk_widget_show(Window8);
-gtk_widget_destroy(Window6);
-}
-
-
-void
-on_buttonretour5_clicked               (GtkWidget      *objet,
-                                        gpointer         user_data)
-{
-GtkWidget *fenetre_reponce,*Window8;
-Window8=lookup_widget(objet,"window8");
-
-gtk_widget_destroy(Window8);
-fenetre_reponce=create_window6();
-gtk_widget_show(fenetre_reponce);
-}
 
